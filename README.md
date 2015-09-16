@@ -1,6 +1,6 @@
 <h1>Projeto Gerenciador Escolar</h1>
 <br/>
-Aplicativo desktop, desenvolvido utilizando tecnologias que compõe o core da linguangem Java:
+Aplicativo desktop, desenvolvido utilizando tecnologias Java:
 <li>Swing Framework</li>
 <li>JPA</li>
 <li>Hibernate</li>
