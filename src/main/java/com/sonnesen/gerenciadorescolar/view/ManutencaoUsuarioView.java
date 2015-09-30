@@ -6,13 +6,15 @@
 package com.sonnesen.gerenciadorescolar.view;
 
 import com.sonnesen.gerenciadorescolar.dao.UsuarioDAO;
-import com.sonnesen.gerenciadorescolar.dao.UsuarioDAOImpl;
-import com.sonnesen.gerenciadorescolar.model.Usuario;
+import com.sonnesen.gerenciadorescolar.entity.Usuario;
+import com.sonnesen.gerenciadorescolar.exception.BusinessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -49,7 +51,7 @@ public class ManutencaoUsuarioView extends javax.swing.JDialog {
     private void myInitComponets() {
         bindingGroup = new BindingGroup();
 
-        UsuarioDAO dao = new UsuarioDAOImpl();
+        UsuarioDAO dao = new UsuarioDAO();
         usuarioList = ObservableCollections.observableList(dao.findAll());
         masterTable.setModel(new UsuarioTableModel(usuarioList));
 
@@ -256,7 +258,9 @@ public class ManutencaoUsuarioView extends javax.swing.JDialog {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
         int row = masterTable.getSelectedRow();
-        if (row < 0) return;
+        if (row < 0) {
+            return;
+        }
         usuarioList.remove(row);
         List<Usuario> temp = new ArrayList<>(usuarioList);
         usuarioList.clear();
@@ -283,8 +287,12 @@ public class ManutencaoUsuarioView extends javax.swing.JDialog {
             Thread t = new Thread(() -> {
                 int selected = masterTable.getSelectedRow();
                 Usuario u = usuarioList.get(selected);
-                UsuarioDAO dao = new UsuarioDAOImpl();
-                dao.remove(u);
+                UsuarioDAO dao = new UsuarioDAO();
+                try {
+                    dao.remove(u);
+                } catch (BusinessException ex) {
+                    Logger.getLogger(ManutencaoUsuarioView.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 usuarioList.remove(selected);
             });
             t.start();
@@ -300,12 +308,12 @@ public class ManutencaoUsuarioView extends javax.swing.JDialog {
 
             @Override
             public void run() {
-                UsuarioDAO<Usuario> dao = new UsuarioDAOImpl();
+                UsuarioDAO dao = new UsuarioDAO();
                 Usuario usuario = new Usuario();
 
-                int codigo = 0;
+                long codigo = 0L;
                 try {
-                    codigo = new Integer(codigoField.getText());
+                    codigo = new Long(codigoField.getText());
                 } catch (NumberFormatException e) {
                 }
 
@@ -313,7 +321,11 @@ public class ManutencaoUsuarioView extends javax.swing.JDialog {
                 usuario.setLogin(loginField.getText());
                 usuario.setNome(nomeField.getText());
                 usuario.setSenha(senhaField.getText());
-                usuario = dao.save(usuario);
+                try {
+                    usuario = dao.save(usuario);
+                } catch (BusinessException ex) {
+                    Logger.getLogger(ManutencaoUsuarioView.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 usuarioList.add(usuario);
                 cancelButton.doClick();
                 JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
@@ -436,7 +448,7 @@ public class ManutencaoUsuarioView extends javax.swing.JDialog {
             Usuario usuario = usuarios.get(rowIndex);
             switch (columnIndex) {
                 case 0:
-                    usuario.setCodigo(Integer.parseInt(aValue.toString()));
+                    usuario.setCodigo(Long.parseLong(aValue.toString()));
                     break;
                 case 1:
                     usuario.setNome(aValue.toString());

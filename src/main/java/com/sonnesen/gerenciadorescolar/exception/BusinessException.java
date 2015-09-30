@@ -19,8 +19,4 @@ public class BusinessException extends Exception {
         super(message, cause);
     }
 
-    public BusinessException(Throwable cause) {
-        super(cause);
-    }
-    
 }

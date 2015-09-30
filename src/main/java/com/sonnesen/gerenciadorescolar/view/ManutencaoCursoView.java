@@ -5,7 +5,7 @@
  */
 package com.sonnesen.gerenciadorescolar.view;
 
-import com.sonnesen.gerenciadorescolar.model.PeriodoUtil;
+import com.sonnesen.gerenciadorescolar.entity.PeriodoUtil;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.beans.Beans;
@@ -255,9 +255,9 @@ public class ManutencaoCursoView extends JPanel {
         int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (opcao == JOptionPane.OK_OPTION) {
             int[] selected = masterTable.getSelectedRows();
-            List<com.sonnesen.gerenciadorescolar.model.Curso> toRemove = new ArrayList<com.sonnesen.gerenciadorescolar.model.Curso>(selected.length);
+            List<com.sonnesen.gerenciadorescolar.entity.Curso> toRemove = new ArrayList<com.sonnesen.gerenciadorescolar.entity.Curso>(selected.length);
             for (int idx = 0; idx < selected.length; idx++) {
-                com.sonnesen.gerenciadorescolar.model.Curso c = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+                com.sonnesen.gerenciadorescolar.entity.Curso c = list.get(masterTable.convertRowIndexToModel(selected[idx]));
                 toRemove.add(c);
                 entityManager.remove(c);
             }
@@ -268,7 +268,7 @@ public class ManutencaoCursoView extends JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.sonnesen.gerenciadorescolar.model.Curso c = new com.sonnesen.gerenciadorescolar.model.Curso();
+        com.sonnesen.gerenciadorescolar.entity.Curso c = new com.sonnesen.gerenciadorescolar.entity.Curso();
         entityManager.persist(c);
         list.add(c);
         int row = list.size() - 1;
@@ -286,8 +286,8 @@ public class ManutencaoCursoView extends JPanel {
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
-            List<com.sonnesen.gerenciadorescolar.model.Curso> merged = new ArrayList<com.sonnesen.gerenciadorescolar.model.Curso>(list.size());
-            for (com.sonnesen.gerenciadorescolar.model.Curso c : list) {
+            List<com.sonnesen.gerenciadorescolar.entity.Curso> merged = new ArrayList<com.sonnesen.gerenciadorescolar.entity.Curso>(list.size());
+            for (com.sonnesen.gerenciadorescolar.entity.Curso c : list) {
                 merged.add(entityManager.merge(c));
             }
             list.clear();
@@ -305,7 +305,7 @@ public class ManutencaoCursoView extends JPanel {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel idcursoLabel;
     private javax.swing.JLabel jLabel1;
-    private java.util.List<com.sonnesen.gerenciadorescolar.model.Curso> list;
+    private java.util.List<com.sonnesen.gerenciadorescolar.entity.Curso> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;

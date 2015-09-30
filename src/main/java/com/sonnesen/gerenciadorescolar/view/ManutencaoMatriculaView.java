@@ -226,9 +226,9 @@ public class ManutencaoMatriculaView extends JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int[] selected = masterTable.getSelectedRows();
-        List<com.sonnesen.gerenciadorescolar.model.Matricula> toRemove = new ArrayList<com.sonnesen.gerenciadorescolar.model.Matricula>(selected.length);
+        List<com.sonnesen.gerenciadorescolar.entity.Matricula> toRemove = new ArrayList<com.sonnesen.gerenciadorescolar.entity.Matricula>(selected.length);
         for (int idx = 0; idx < selected.length; idx++) {
-            com.sonnesen.gerenciadorescolar.model.Matricula m = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+            com.sonnesen.gerenciadorescolar.entity.Matricula m = list.get(masterTable.convertRowIndexToModel(selected[idx]));
             toRemove.add(m);
             entityManager.remove(m);
         }
@@ -236,7 +236,7 @@ public class ManutencaoMatriculaView extends JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.sonnesen.gerenciadorescolar.model.Matricula m = new com.sonnesen.gerenciadorescolar.model.Matricula();
+        com.sonnesen.gerenciadorescolar.entity.Matricula m = new com.sonnesen.gerenciadorescolar.entity.Matricula();
         entityManager.persist(m);
         list.add(m);
         int row = list.size() - 1;
@@ -251,8 +251,8 @@ public class ManutencaoMatriculaView extends JPanel {
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
-            List<com.sonnesen.gerenciadorescolar.model.Matricula> merged = new ArrayList<com.sonnesen.gerenciadorescolar.model.Matricula>(list.size());
-            for (com.sonnesen.gerenciadorescolar.model.Matricula m : list) {
+            List<com.sonnesen.gerenciadorescolar.entity.Matricula> merged = new ArrayList<com.sonnesen.gerenciadorescolar.entity.Matricula>(list.size());
+            for (com.sonnesen.gerenciadorescolar.entity.Matricula m : list) {
                 merged.add(entityManager.merge(m));
             }
             list.clear();
@@ -272,7 +272,7 @@ public class ManutencaoMatriculaView extends JPanel {
     private javax.swing.JLabel dataMatriculaLabel;
     private javax.swing.JButton deleteButton;
     private javax.persistence.EntityManager entityManager;
-    private java.util.List<com.sonnesen.gerenciadorescolar.model.Matricula> list;
+    private java.util.List<com.sonnesen.gerenciadorescolar.entity.Matricula> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;

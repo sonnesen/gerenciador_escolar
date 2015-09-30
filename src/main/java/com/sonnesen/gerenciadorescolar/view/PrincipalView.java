@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sonnesen.gerenciadorescolar.view;
 
+import com.sonnesen.gerenciadorescolar.session.SessionManager;
 import com.sonnesen.gerenciadorescolar.util.JPAUtil;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,17 +32,12 @@ public class PrincipalView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        usuarioManutButton = new javax.swing.JButton();
-        alunoManutButton = new javax.swing.JButton();
-        usuarioConsultButton = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -50,60 +47,19 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gerenciador Escolar");
+        setTitle("Principal");
         setExtendedState(6);
-
-        jToolBar1.setFloatable(false);
-        jToolBar1.setRollover(true);
-
-        usuarioManutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/user_48_hot.png"))); // NOI18N
-        usuarioManutButton.setToolTipText("Manutenção de Usuários");
-        usuarioManutButton.setFocusable(false);
-        usuarioManutButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        usuarioManutButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        usuarioManutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usuarioManutButtonActionPerformed(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
             }
         });
-        jToolBar1.add(usuarioManutButton);
-
-        alunoManutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/clients_48_hot.png"))); // NOI18N
-        alunoManutButton.setToolTipText("Manutenção de Alunos");
-        alunoManutButton.setFocusable(false);
-        alunoManutButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        alunoManutButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        alunoManutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                alunoManutButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(alunoManutButton);
-
-        usuarioConsultButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/clients_search_48_hot.png"))); // NOI18N
-        usuarioConsultButton.setToolTipText("Consulta de Alunos");
-        usuarioConsultButton.setFocusable(false);
-        usuarioConsultButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        usuarioConsultButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        usuarioConsultButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usuarioConsultButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(usuarioConsultButton);
-        jToolBar1.add(filler1);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/door_level_48_hot.png"))); // NOI18N
-        jButton3.setToolTipText("Sair");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton3);
 
         jMenu1.setText("Manutenção");
 
@@ -130,6 +86,14 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem5);
+
+        jMenuItem8.setText("Turma");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem8);
 
         jMenuBar1.add(jMenu1);
 
@@ -167,54 +131,57 @@ public class PrincipalView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
+            .addGap(0, 793, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 356, Short.MAX_VALUE))
+            .addGap(0, 418, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usuarioManutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioManutButtonActionPerformed
-        ManutencaoUsuarioView.main(null);
-    }//GEN-LAST:event_usuarioManutButtonActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ManutencaoUsuarioView.main(null);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        JPAUtil.closeEntityManagerFactory();
-        System.exit(0);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        ManutencaoAlunoView.main(null);
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void alunoManutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alunoManutButtonActionPerformed
-        // TODO add your handling code here:
-        ManutencaoAlunoView.main(null);
-    }//GEN-LAST:event_alunoManutButtonActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ConsultaAlunoView.main(null);
+        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void usuarioConsultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioConsultButtonActionPerformed
-        ConsultaAlunoView.main(null);
-    }//GEN-LAST:event_usuarioConsultButtonActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
-        ManutencaoCursoView.main(null);
+        // TODO add your handling code here:        
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:        
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        if (SessionManager.getUsuarioLogado() == null) {
+            new Thread(() -> {
+                new LoginView(this).setVisible(true);
+            }).start();
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        new Thread(() -> {
+            JPAUtil.closeEntityManagerFactory();
+            System.exit(0);
+        }).start();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -245,17 +212,12 @@ public class PrincipalView extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PrincipalView().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new PrincipalView().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton alunoManutButton;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -268,8 +230,6 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton usuarioConsultButton;
-    private javax.swing.JButton usuarioManutButton;
+    private javax.swing.JMenuItem jMenuItem8;
     // End of variables declaration//GEN-END:variables
 }
